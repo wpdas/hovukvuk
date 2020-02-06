@@ -1,0 +1,31 @@
+version: '3.5'
+
+services:
+  webapp:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    image: hovukvuk/webapp
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/usr/app
+    networks: 
+      - hovukvuk-network
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    image: hovukvuk/backend
+    environment:
+      GIPHY_API_KEY: $GIPHY_API_KEY
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./server:/usr/app
+    networks: 
+      - hovukvuk-network
+  
+networks:
+  hovukvuk-network:
+    name: hovukvuk-network
